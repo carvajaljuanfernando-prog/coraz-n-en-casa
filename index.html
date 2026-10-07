@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Corazón en Casa</title>
+<meta name="description" content="Su programa de rehabilitación cardíaca en casa: sesión guiada, plan de 12 semanas y diario. Dr. Juan Fernando Carvajal Estupiñán, cardiólogo.">
+<meta property="og:title" content="Corazón en Casa">
+<meta property="og:description" content="Su programa de rehabilitación cardíaca en casa: sesión guiada, plan de 12 semanas y diario. Dr. Juan Fernando Carvajal Estupiñán, cardiólogo.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="icon-512.png">
+<meta name="theme-color" content="#0D2B45">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Corazón en Casa">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<style>:root{color-scheme:light;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@600;700&display=swap">
+<style>
+/* Layout: una columna de teléfono; barra superior con botón de señal roja, cinco pestañas abajo, y durante la sesión un solo paso grande por pantalla */
+:root{
+  --bg:#F3F6F9;--surface:#FFFFFF;--ink:#0D2B45;--muted:#4A6076;--line:#D3DCE5;
+  --accent:#C4923A;--on-accent:#0D2B45;--tint:#FBF3E4;
+  --head:#0D2B45;--on-head:#FFFFFF;
+  --good:#1E7B4C;--warn:#8F5500;--bad:#B3261E;--on-bad:#FFFFFF;
+  --display:'Space Grotesk','Trebuchet MS',Verdana,sans-serif;
+  --body:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0D2B45;--surface:#143A5C;--ink:#F2F5F8;--muted:#B7C6D4;--line:#2D567C;
+  --accent:#D9A951;--on-accent:#0D2B45;--tint:#1B4468;
+  --head:#081E33;--on-head:#FFFFFF;
+  --good:#63CE96;--warn:#F0B254;--bad:#D6453B;--on-bad:#FFFFFF;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0D2B45;--surface:#143A5C;--ink:#F2F5F8;--muted:#B7C6D4;--line:#2D567C;
+  --accent:#D9A951;--on-accent:#0D2B45;--tint:#1B4468;
+  --head:#081E33;--on-head:#FFFFFF;
+  --good:#63CE96;--warn:#F0B254;--bad:#D6453B;--on-bad:#FFFFFF;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 18px/1.45 var(--body);margin:0}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.2}
+h1{font-size:20px}h2{font-size:26px}h3{font-size:20px}
+p{margin:0}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--head);color:var(--on-head);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px}
+.wrap{max-width:560px;margin:0 auto;padding-inline:16px;padding-block:16px 120px;display:flex;flex-direction:column;gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.gold{background:var(--tint);border-color:var(--accent)}
+.muted{color:var(--muted)}.small{font-size:16px}
+.big{font:700 44px/1 var(--display);font-variant-numeric:tabular-nums}
+.clock{font:700 76px/1 var(--display);font-variant-numeric:tabular-nums;text-align:center}
+.eyebrow{font:600 14px/1.2 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+button,.btn{font:600 19px/1.2 var(--body);min-height:58px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);padding:12px 16px;cursor:pointer;width:100%}
+button.pri{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+button.red{background:var(--bad);border-color:var(--bad);color:var(--on-bad)}
+button.sos{width:auto;min-height:44px;font-size:16px;padding:8px 14px}
+button.link{border:0;background:none;min-height:44px;text-decoration:underline;color:var(--muted);font-size:16px}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1 1 130px;min-width:0}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav button{border:0;border-radius:0;min-height:60px;font-size:14px;padding:6px 2px;background:none;color:var(--muted);border-top:4px solid transparent}
+.nav button[aria-current="page"]{color:var(--ink);border-top-color:var(--accent)}
+label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:16px;min-width:0}
+input[type=text],input[type=number],input[type=tel],select{font:400 20px var(--body);padding:12px;border-radius:10px;border:2px solid var(--line);background:var(--surface);color:var(--ink);width:100%;min-height:54px}
+.opt{flex-direction:row;align-items:center;gap:12px;font-weight:400;font-size:18px;padding:12px;border:2px solid var(--line);border-radius:10px;background:var(--surface)}
+.opt input{width:24px;height:24px;flex:none;accent-color:var(--accent)}
+.fig{width:100%;max-width:240px;height:auto;align-self:center}
+.fb{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.fg{fill:none;stroke:var(--muted);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:.55}
+.fp{fill:none;stroke:var(--muted);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.ft{fill:var(--accent);fill-opacity:.35;stroke:var(--accent);stroke-width:1.5}
+.fa{fill:none;stroke:var(--accent);stroke-width:2}.fr{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:3 3}
+.fl{stroke:var(--line);stroke-width:1.5}
+.prog{height:8px;border-radius:4px;background:var(--line);overflow:hidden}.prog i{display:block;height:100%;background:var(--accent)}
+.dots{display:flex;gap:8px}.dots i{width:22px;height:22px;border-radius:50%;border:2px solid var(--accent)}.dots i.on{background:var(--accent)}
+.wk{display:grid;grid-template-columns:44px 1fr;gap:4px 12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.wk b{font:700 22px var(--display)}.wk .bar{height:10px;border-radius:5px;background:var(--muted);opacity:.5}
+.wk.now .bar{background:var(--accent);opacity:1}.wk.now b{color:var(--warn)}
+.zone{display:grid;grid-template-columns:76px 1fr;gap:10px;padding:10px 12px;border-radius:10px;border:2px solid var(--line)}
+.zone.me{border-color:var(--accent);background:var(--tint)}
+.alert{border:2px solid var(--bad);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--surface)}
+.alert h2{color:var(--bad)}
+ol,ul{margin:0;padding-left:24px;display:flex;flex-direction:column;gap:6px}
+#sos{position:fixed;inset:0;z-index:9;background:var(--bg);overflow:auto;padding:16px}
+.entry{border-top:1px solid var(--line);padding-top:10px;font-size:16px}
+textarea{width:100%;min-height:160px;font:400 15px var(--body);border-radius:10px;border:2px solid var(--line);background:var(--surface);color:var(--ink);padding:10px}
+a{color:inherit}
+@media (prefers-reduced-motion:no-preference){.prog i{transition:width .3s}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--accent)"/></marker></defs></svg>
+
+<header class="top">
+  <h1>Corazón en Casa</h1>
+  <button class="red sos" data-a="sos">Señal roja</button>
+</header>
+<main class="wrap" id="app"></main>
+<nav class="nav" id="nav" aria-label="Secciones">
+  <button data-v="hoy">Hoy</button><button data-v="ej">Ejercicios</button><button data-v="plan">Mi plan</button><button data-v="diario">Diario</button><button data-v="datos">Mis datos</button>
+</nav>
+<div id="sos" hidden></div>
+
+<script>
+// ---------- Datos del programa (12 semanas) ----------
+// min: minutos de caminata · b: esfuerzo Borg · fd: días de fuerza · ser × rep
+const PLAN=[
+ {min:10,b:'9 a 11',fd:0},{min:15,b:'9 a 11',fd:0},
+ {min:20,b:'11 a 13',fd:2,ser:1,rep:10},{min:25,b:'11 a 13',fd:2,ser:1,rep:12},
+ {min:30,b:'11 a 13',fd:2,ser:2,rep:10},{min:30,b:'12 a 13',fd:2,ser:2,rep:12},
+ {min:35,b:'12 a 13',fd:2,ser:2,rep:12},{min:40,b:'12 a 13',fd:2,ser:2,rep:15},
+ {min:40,b:'12 a 13',fd:3,ser:2,rep:15},{min:45,b:'12 a 13',fd:3,ser:2,rep:15},
+ {min:45,b:'12 a 13',fd:3,ser:3,rep:12},{min:50,b:'12 a 13',fd:3,ser:3,rep:12}];
+const EX={
+ marcha:{n:'Marcha en el sitio',c:'Suba las rodillas hasta donde le sea cómodo. Mueva los brazos como al caminar.',t:120},
+ hombros:{n:'Círculos de hombros',c:'10 hacia atrás y 10 hacia adelante. Grandes y lentos.',t:60},
+ giros:{n:'Giros de cintura',c:'Pies quietos y separados. Gire despacio el tronco, 10 veces a cada lado.',t:60},
+ brazos:{n:'Brazos arriba con respiración',c:'Tome aire por la nariz al subir los brazos. Bótelo por la boca al bajarlos. 8 veces.',t:60},
+ silla:{n:'Sentarse y levantarse de la silla',o:'Silla firme recostada a la pared',c:'Brazos cruzados al pecho. Suba en 2 segundos y baje en 3 sin dejarse caer. Sople al subir.'},
+ pared:{n:'Flexiones contra la pared',o:'Pared',c:'Pies a un paso largo de la pared, cuerpo recto. Acerque el pecho doblando los codos y empuje.'},
+ remo:{n:'Remo con garrafa',o:'Garrafa o botella',c:'Una mano apoyada en la silla, espalda recta. Suba la garrafa hacia la cintura.',lados:1},
+ talones:{n:'Elevación de talones',o:'Silla para apoyarse',c:'Agárrese del espaldar. Suba a puntas de pie, sostenga 1 segundo y baje despacio.'},
+ empuje:{n:'Empuje de hombros sentado',o:'2 botellas',c:'Botellas a la altura de los hombros. Súbalas sin trabar los codos. Sople al subir.'},
+ codos:{n:'Doblar los codos con botellas',o:'2 botellas',c:'Codos pegados al cuerpo. Suba una botella hacia el hombro y baje lento. Alterne los brazos.'},
+ escalon:{n:'Subir y bajar un escalón',o:'Grada firme y un apoyo cerca',c:'Suba con una pierna y baje con la misma.',lados:1},
+ equilibrio:{n:'Equilibrio en un pie',o:'Silla cerca',c:'Una mano cerca del espaldar, por seguridad. Mire un punto fijo al frente.',t:30},
+ lento:{n:'Camine muy despacio',c:'Baje el ritmo poco a poco. Nunca pare en seco.',t:120},
+ pantorrilla:{n:'Estirar la pantorrilla',c:'Manos en la pared, una pierna atrás y estirada, talón pegado al piso. 20 segundos cada pierna.',t:40},
+ muslo:{n:'Estirar la parte de atrás del muslo',c:'Sentado en el borde de la silla, una pierna estirada. Incline el tronco con la espalda recta. 20 segundos cada pierna.',t:40},
+ pecho:{n:'Abrir el pecho',c:'Abra los brazos y lleve los codos hacia atrás. Junte los omoplatos.',t:20},
+ respirar:{n:'Respiración lenta',c:'Tome aire por la nariz en 4 segundos. Bótelo por la boca en 6, como soplando una vela.',t:60}};
+const WARM=['marcha','hombros','giros','brazos'],STR=['silla','pared','remo','talones','empuje','codos','escalon','equilibrio'],COOL=['lento','pantorrilla','muslo','pecho','respirar'];
+// Para conectar videos: ponga aquí el enlace de cada ejercicio, por ejemplo silla:'https://youtu.be/XXXX'
+const VIDEO={};
+// Figuras: h cabeza · s cuerpo · g/G figura gris · p mueble · t objeto · r círculo · a flecha
+const TORSO='h75,62|s75,71 75,122|s75,122 67,176|s75,122 83,176';
+const F={
+ marcha:'h75,62|s75,71 75,122|s75,122 75,176|s75,122 96,134 92,160|s75,82 60,102|s75,82 92,98|aM110 152V128',
+ hombros:TORSO+'|s75,82 63,110|s75,82 87,110|r56,82|r94,82',
+ giros:'h75,62|s75,71 75,122|s75,122 65,176|s75,122 85,176|s46,84 104,84|aM48 100Q75 116 102 100',
+ brazos:TORSO+'|s75,82 58,66 56,42|s75,82 92,66 94,42|aM116 104V62',
+ silla:'p30,100 30,140 62,140|p32,140 32,176|p60,140 60,176|g53,84|G52,93 50,136 82,138 82,176|h120,62|s120,71 120,122|s120,122 114,176|s120,122 126,176|s120,84 130,98 116,96|aM88 116L102 90',
+ pared:'p136,40 136,176|h104,66|s70,176 98,80|s98,88 134,84|aM96 124L112 118',
+ remo:'p106,140 138,140 138,100|p108,140 108,176|p136,140 136,176|s56,124 50,176|s56,124 66,176|s56,124 92,100|h103,93|s90,102 108,138|s84,104 68,98 74,118|t68,118,13,18|aM40 130V106',
+ talones:'p120,96 120,176|p120,140 148,140 148,176|h84,54|s84,63 84,114|s84,114 84,166 94,175|s84,76 118,98|aM60 152V126',
+ empuje:'p40,96 40,140 72,140|p42,140 42,176|p70,140 70,176|h60,78|s60,87 60,136 92,138 92,176|s60,96 42,90 44,64|s60,96 78,90 76,64|t39,50,10,14|t71,50,10,14|aM106 100V62',
+ codos:TORSO+'|s75,82 68,104 66,126|t61,126,10,14|s75,82 84,106 100,92|t96,78,10,14|aM120 118V88',
+ escalon:'p84,176 84,158 148,158 148,176|s74,114 62,176|s74,114 98,130 96,158|s74,114 78,66|h80,54|s78,76 92,94|s78,76 66,96|aM124 148V122',
+ equilibrio:'p120,96 120,176|p120,140 148,140 148,176|h84,62|s84,71 84,122|s84,122 84,176|s84,122 78,148 62,154|s84,82 118,98|s84,82 72,106',
+ lento:'h75,62|s75,71 75,122|s75,122 62,176|s75,122 92,174|s75,82 62,104|s75,82 90,100|aM106 112H132',
+ pantorrilla:'p136,40 136,176|s40,176 78,128|s78,128 106,148 104,176|s78,128 98,84|h105,71|s98,90 134,88',
+ muslo:'p30,100 30,140 62,140|p32,140 32,176|p60,140 60,176|s56,136 84,140 84,176|s56,136 118,172|s56,136 78,96|h86,85|s76,104 102,146',
+ pecho:TORSO+'|s75,84 52,92 42,72|s75,84 98,92 108,72|aM40 106H22|aM110 106H128',
+ respirar:'p40,96 40,140 72,140|p42,140 42,176|p70,140 70,176|h60,78|s60,87 60,136 92,138 92,176|s60,98 76,112 64,118'};
+function fig(k){
+  const o=F[k].split('|').map(c=>{const t=c[0],v=c.slice(1),q=v.split(',');
+    if(t==='h'||t==='g')return `<circle cx="${q[0]}" cy="${q[1]}" r="9" class="${t==='g'?'fg':'fb'}"/>`;
+    if(t==='s')return `<polyline points="${v}" class="fb"/>`;
+    if(t==='G')return `<polyline points="${v}" class="fg"/>`;
+    if(t==='p')return `<polyline points="${v}" class="fp"/>`;
+    if(t==='t')return `<rect x="${q[0]}" y="${q[1]}" width="${q[2]}" height="${q[3]}" rx="3" class="ft"/>`;
+    if(t==='r')return `<circle cx="${q[0]}" cy="${q[1]}" r="11" class="fr"/>`;
+    return `<path d="${v}" class="fa" marker-end="url(#ah)"/>`;}).join('');
+  return `<svg class="fig" viewBox="10 30 150 156" role="img" aria-label="Dibujo: ${EX[k].n}"><line x1="14" x2="156" y1="177" y2="177" class="fl"/>${o}</svg>`;
+}
+
+// ---------- Estado guardado en este teléfono ----------
+const KEY='corazon-en-casa-v1';
+let S={name:'',week:1,rest:'',zlo:'',zhi:'',cap:'',spo2:'',doc:'',contact:'',log:[]};
+try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
+if(!Array.isArray(S.log))S.log=[];
+S.week=Math.min(12,Math.max(1,parseInt(S.week)||1));
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+let view='hoy',ses=null,flash='',wipeArm=false;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num=v=>{const n=parseFloat(v);return isNaN(n)?null:n};
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const peso=w=>w<6?'botella de 600 ml con agua':w<9?'botella de 1 litro con agua':'botella de 2 litros con agua';
+function zona(){
+  const lo=num(S.zlo),hi=num(S.zhi),r=num(S.rest);
+  if(lo&&hi)return {lo,hi,prov:false};
+  if(r)return {lo:r+20,hi:r+30,prov:true};
+  return null;
+}
+function zonaTxt(){const z=zona();return z?`${z.lo} a ${z.hi} latidos por minuto${z.prov?' (provisional)':''}`:'Pídale su zona a su médico y anótela en “Mis datos”'}
+function fuerzaHoy(){const p=PLAN[S.week-1],d=new Date().getDay();return !!p.fd&&(p.fd===2?[2,5]:[1,3,5]).includes(d)}
+const descansoHoy=()=>[0,4].includes(new Date().getDay());
+const hechas=()=>S.log.filter(e=>e.w===S.week&&!e.no).length;
+
+// ---------- Cronómetro, sonido y pantalla encendida ----------
+let T={end:0,left:0,total:0,run:false,int:null,cb:null,five:false,mark:0},AC=null,WL=null;
+function beep(n){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();
+  for(let i=0;i<n;i++){const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=880;o.connect(g);g.connect(AC.destination);
+    const t=AC.currentTime+i*.35;g.gain.setValueAtTime(.25,t);g.gain.exponentialRampToValueAtTime(.001,t+.28);o.start(t);o.stop(t+.3)}}catch(e){}
+  try{navigator.vibrate&&navigator.vibrate(n>1?[200,100,200]:120)}catch(e){}}
+function wake(){try{if(navigator.wakeLock&&!WL)navigator.wakeLock.request('screen').then(l=>{WL=l;l.addEventListener('release',()=>{WL=null})}).catch(()=>{})}catch(e){}}
+function startT(sec,cb,five){stopT();T.total=sec;T.left=sec*1000;T.cb=cb;T.five=!!five;T.mark=0;playT()}
+function playT(){T.end=Date.now()+T.left;T.run=true;clearInterval(T.int);T.int=setInterval(tick,250);wake();paintT()}
+function pauseT(){T.left=Math.max(0,T.end-Date.now());T.run=false;clearInterval(T.int)}
+function stopT(){clearInterval(T.int);T.run=false}
+function tick(){
+  T.left=Math.max(0,T.end-Date.now());paintT();
+  const m=Math.floor((T.total*1000-T.left)/300000);
+  if(T.five&&m>T.mark&&T.left>0){T.mark=m;beep(1)}
+  if(T.left<=0){stopT();beep(3);const cb=T.cb;T.cb=null;cb&&cb()}
+}
+function paintT(){const el=$('clock');if(!el)return;const s=Math.ceil(T.left/1000);
+  el.textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+  const b=$('tbar');if(b)b.style.width=(100-(T.left/(T.total*1000))*100)+'%'}
+
+// ---------- Sesión guiada ----------
+function build(){
+  const p=PLAN[S.week-1],fz=fuerzaHoy(),st=[{k:'medir'}];
+  WARM.forEach(e=>st.push({k:'t',e,fase:'Calentamiento',sec:EX[e].t}));
+  st.push({k:'walk',sec:p.min*60});
+  if(fz)STR.forEach(e=>{
+    if(e==='equilibrio')['Pierna derecha','Pierna izquierda','Pierna derecha','Pierna izquierda'].forEach(sub=>st.push({k:'t',e,fase:'Fuerza',sec:30,sub}));
+    else st.push({k:'r',e,ser:p.ser,rep:p.rep});});
+  COOL.forEach(e=>st.push({k:'t',e,fase:'Enfriamiento',sec:EX[e].t}));
+  st.push({k:'fin'});
+  return {st,i:0,serie:1,rest:false,walking:false,walked:0,fz,d:{}};
+}
+const cur=()=>ses.st[ses.i];
+function enter(){ses.exitArm=false;const s=cur();if(s.k==='t')startT(s.sec,next);render();window.scrollTo(0,0)}
+function next(){stopT();ses.i++;ses.serie=1;ses.rest=false;enter()}
+function sesHTML(){
+  const s=cur(),n=ses.st.length,e=s.e&&EX[s.e];
+  let h=`<div class="prog" aria-hidden="true"><i style="width:${Math.round(ses.i/(n-1)*100)}%"></i></div>`;
+  if(ses.red)return h+`<div class="alert"><h2>Hoy no haga ejercicio</h2><p>Encontramos una señal roja:</p><ul>${ses.red.map(r=>`<li>${r}</li>`).join('')}</ul><p>Descanse y llame a su médico. Si tiene dolor en el pecho que no cede en 5 minutos, llame al 123.</p></div><button class="pri" data-a="salirya">Entendido</button>`;
+  if(s.k==='medir')h+=`<p class="eyebrow">Paso 1 · Medirse</p><h2>Siéntese 5 minutos y mídase</h2>
+    <div class="card"><div class="row"><label>Presión alta<input type="number" inputmode="numeric" id="m-sys" placeholder="120"></label><label>Presión baja<input type="number" inputmode="numeric" id="m-dia" placeholder="80"></label></div>
+    <div class="row"><label>Pulso<input type="number" inputmode="numeric" id="m-pu" placeholder="60"></label><label>Oxígeno %<input type="number" inputmode="numeric" id="m-ox" placeholder="95"></label></div></div>
+    <div class="card"><p><strong>¿Tiene ahora dolor en el pecho, ahogo en reposo, mareo, fiebre o los pies hinchados?</strong></p>
+    <label class="opt"><input type="radio" name="ms" id="ms-no" value="no" checked>No, me siento bien</label>
+    <label class="opt"><input type="radio" name="ms" id="ms-si" value="si">Sí</label></div>
+    <button class="pri" data-a="medir">Continuar</button>`;
+  else if(s.k==='t')h+=`<p class="eyebrow">${s.fase}</p><h2>${e.n}</h2>${s.sub?`<p><strong>${s.sub}</strong></p>`:''}
+    <div class="card">${fig(s.e)}<p>${e.c}</p></div>
+    <div class="clock" id="clock" aria-live="off">0:00</div><div class="prog"><i id="tbar"></i></div>
+    <div class="row"><button data-a="pausa">${T.run?'Pausar':'Seguir'}</button><button class="pri" data-a="skip">Siguiente</button></div>`;
+  else if(s.k==='walk'){const p=PLAN[S.week-1];
+    h+=`<p class="eyebrow">Caminata · Semana ${S.week}</p><h2>${ses.walking?'Camine a su paso':'Caminata de '+p.min+' minutos'}</h2>
+    <div class="card gold"><p><strong>Esfuerzo:</strong> ${p.b}. Debe poder hablar en frases completas.</p><p><strong>Su pulso:</strong> ${zonaTxt()}.</p>${num(S.cap)?`<p><strong>No pase de:</strong> ${num(S.cap)} latidos por minuto.</p>`:''}</div>`;
+    h+=ses.walking?`<div class="clock" id="clock">0:00</div><div class="prog"><i id="tbar"></i></div><p class="muted small">Sonará un pito cada 5 minutos: mire su pulso en el reloj.</p>
+      <div class="row"><button data-a="pausa">${T.run?'Pausar':'Seguir'}</button><button data-a="walkend">Terminar antes</button></div>`
+     :`<div class="card"><ul><li>Inicie “Caminar” en su reloj Garmin.</li><li>Lleve agua, sombrero y el celular.</li><li>Avise a alguien por dónde va.</li></ul></div><button class="pri" data-a="walkgo">Empezar la caminata</button>`;}
+  else if(s.k==='r')h+=ses.rest?`<p class="eyebrow">Fuerza · Descanso</p><h2>Descanse 1 minuto</h2><div class="clock" id="clock">1:00</div><div class="prog"><i id="tbar"></i></div><p>Sigue: serie ${ses.serie+1} de ${s.ser} de “${e.n}”.</p><button class="pri" data-a="restskip">Seguir ya</button>`
+    :`<p class="eyebrow">Fuerza · Serie ${ses.serie} de ${s.ser}</p><h2>${e.n}</h2>
+    <div class="card">${fig(s.e)}<p class="big">${s.rep} veces${e.lados?' por lado':''}</p><p>${e.c}</p><p class="muted small">Objeto: ${e.o}${/botella|Garrafa/i.test(e.o)?'. Esta semana: '+peso(S.week):''}. No aguante la respiración.</p></div>
+    <button class="pri" data-a="serie">Serie hecha</button>`;
+  else h+=`<p class="eyebrow">Último paso</p><h2>¿Cómo le fue?</h2>
+    <div class="card"><p><strong>¿Qué tan duro sintió el ejercicio?</strong></p>
+    ${[['6 a 8','Muy suave'],['9 a 11','Suave'],['12 a 13','Algo duro: pude hablar'],['14 a 15','Duro: frases cortas'],['16 a 20','Muy duro: no podía hablar']].map((b,i)=>`<label class="opt"><input type="radio" name="borg" id="b-${i}" value="${b[0]}"${i===2?' checked':''}><span><strong>${b[0]}</strong> · ${b[1]}</span></label>`).join('')}</div>
+    <div class="card"><p><strong>¿Sintió algo de esto?</strong></p>
+    ${['Dolor o presión en el pecho','Ahogo fuerte','Mareo','Palpitaciones'].map((x,i)=>`<label class="opt"><input type="checkbox" name="sint" id="s-${i}" value="${x}">${x}</label>`).join('')}</div>
+    <div class="card"><p class="muted small">Espere 5 minutos sentado y mídase de nuevo. Puede dejarlo en blanco.</p><div class="row"><label>Pulso máximo del reloj<input type="number" inputmode="numeric" id="f-pm"></label></div>
+    <div class="row"><label>Presión alta después<input type="number" inputmode="numeric" id="f-sys"></label><label>Presión baja después<input type="number" inputmode="numeric" id="f-dia"></label></div></div>
+    <button class="pri" data-a="guardar">Guardar la sesión</button>`;
+  return h+`<button class="link" data-a="salir">${ses.exitArm?'Toque otra vez para salir sin guardar':'Salir de la sesión'}</button>`;
+}
+function medir(){
+  const sys=num($('m-sys').value),dia=num($('m-dia').value),pu=num($('m-pu').value),ox=num($('m-ox').value),si=$('ms-si').checked,r=[],hab=num(S.spo2);
+  if((sys&&sys>=180)||(dia&&dia>=110))r.push('Presión muy alta (180/110 o más).');
+  if(sys&&sys<90)r.push('Presión muy baja (menos de 90).');
+  if(pu&&pu>100)r.push('Pulso en reposo por encima de 100.');
+  if(ox&&(ox<90||(hab&&ox<=hab-4)))r.push('Oxigenación baja'+(ox>=90?' frente a su valor habitual.':' (menos de 90 %).'));
+  if(si)r.push('Tiene síntomas en reposo.');
+  ses.d={pa:sys&&dia?sys+'/'+dia:'',pu:pu||'',ox:ox||''};
+  if(r.length){ses.red=r;S.log.unshift({d:today(),w:S.week,no:1,...ses.d,sint:r.join(' ')});save();render();window.scrollTo(0,0);return}
+  next();
+}
+function guardar(){
+  const b=document.querySelector('input[name=borg]:checked'),sint=[...document.querySelectorAll('input[name=sint]:checked')].map(x=>x.value);
+  const sys=num($('f-sys').value),dia=num($('f-dia').value);
+  S.log.unshift({d:today(),w:S.week,...ses.d,min:Math.round(ses.walked/60),pm:num($('f-pm').value)||'',borg:b?b.value:'',fz:ses.fz?1:0,pa2:sys&&dia?sys+'/'+dia:'',sint:sint.join(', ')});
+  save();
+  flash=sint.length?'Sesión guardada. Como tuvo síntomas, llame a su médico antes de la próxima sesión.':(b&&/^1[46]/.test(b.value)?'Sesión guardada. La sintió dura: la próxima vez camine más despacio.':'Sesión guardada. Buen trabajo.');
+  ses=null;view='hoy';render();window.scrollTo(0,0);
+}
+
+// ---------- Pantallas ----------
+function hoyHTML(){
+  const p=PLAN[S.week-1],n=hechas(),fz=fuerzaHoy(),nombre=S.name?', '+esc(S.name.split(' ')[0]):'';
+  let h=flash?`<div class="card gold" role="status"><p><strong>${flash}</strong></p></div>`:'';flash='';
+  h+=`<div><p class="eyebrow">Semana ${S.week} de 12</p><h2>Buen día${nombre}</h2></div>`;
+  if(n>=5&&S.week<12)h+=`<div class="card gold"><h3>Completó la semana ${S.week}</h3><p>Si la terminó sin señales rojas y sin sentirla dura, puede avanzar. Si le costó, repítala: repetir no es retroceder.</p><div class="row"><button class="pri" data-a="avanzar">Pasar a la semana ${S.week+1}</button></div></div>`;
+  h+=`<div class="card"><h3>${descansoHoy()?'Hoy es día de descanso':'Su sesión de hoy'}</h3>
+    ${descansoHoy()?'<p>Muévase, pero sin sesión. Si le faltó algún día esta semana, puede reponerlo hoy.</p>':''}
+    <p><span class="big">${p.min}</span> minutos de caminata</p>
+    <p>Esfuerzo ${p.b} en la escala de 6 a 20.</p>
+    <p>${fz?`Hoy también hay fuerza: ${p.ser} ${p.ser>1?'series':'serie'} de ${p.rep} con ${peso(S.week)}.`:(p.fd?'Hoy no hay fuerza.':'La fuerza empieza en la semana 3.')}</p>
+    <p class="muted small">Con calentamiento y enfriamiento son unos ${p.min+15+(fz?20:0)} minutos.</p>
+    <button class="pri" data-a="empezar">${descansoHoy()?'Hacer una sesión hoy':'Empezar la sesión'}</button></div>
+  <div class="card"><h3>Esta semana</h3><div class="dots" aria-hidden="true">${[0,1,2,3,4].map(i=>`<i class="${i<n?'on':''}"></i>`).join('')}</div><p>${Math.min(n,5)} de 5 sesiones hechas.</p></div>
+  <div class="card"><h3>Las tres reglas de oro</h3><ol><li>Poco y todos los días es mejor que mucho de vez en cuando.</li><li>Debe poder hablar en frases completas. Si no puede, baje el ritmo.</li><li>Dolor en el pecho, ahogo fuerte o mareo: pare. Nunca aguante un síntoma.</li></ol></div>`;
+  if(!S.name||!zona())h+=`<div class="card"><p>Complete su nombre y su zona de pulso para que la aplicación quede a su medida.</p><button data-v="datos">Ir a mis datos</button></div>`;
+  return h;
+}
+function ejHTML(){
+  const grupo=(t,sub,l)=>`<div><p class="eyebrow">${sub}</p><h2>${t}</h2></div>`+l.map(k=>{const e=EX[k];return `<div class="card">${fig(k)}<h3>${e.n}</h3><p>${e.c}</p>${e.o?`<p class="muted small">Objeto: ${e.o}</p>`:''}${VIDEO[k]?`<p><a href="${VIDEO[k]}" target="_blank" rel="noopener">Ver el video</a></p>`:''}</div>`}).join('');
+  return grupo('Calentamiento','5 minutos antes de caminar',WARM)
+   +`<div><p class="eyebrow">Mientras camina</p><h2>Mida su esfuerzo</h2></div><div class="card">${[['6 a 8','Muy suave. Puede cantar.'],['9 a 11','Suave. Habla sin esfuerzo.'],['12 a 13','Algo duro. Habla en frases completas. Esta es su zona.'],['14 a 15','Duro. Solo frases cortas.'],['16 a 20','Muy duro. Baje el ritmo.']].map((z,i)=>`<div class="zone${i===2?' me':''}"><strong>${z[0]}</strong><span>${z[1]}</span></div>`).join('')}</div>`
+   +grupo('Fuerza','Desde la semana 3, después de caminar',STR)
+   +`<div class="card gold"><h3>Reglas de la fuerza</h3><ul><li>Nunca aguante la respiración: sople al hacer la fuerza.</li><li>Lento: 2 segundos para subir y 3 para bajar.</li><li>Al terminar debe sentir que podría hacer 2 o 3 más.</li><li>Si duele una articulación, hoy no lo haga.</li></ul></div>`
+   +grupo('Enfriamiento','5 minutos para terminar',COOL);
+}
+function planHTML(){
+  return `<div><p class="eyebrow">12 semanas</p><h2>Mi plan</h2></div>
+  <div class="card"><p>Está en la <strong>semana ${S.week}</strong>.</p><div class="row"><button data-a="menos"${S.week<2?' disabled':''}>Semana anterior</button><button data-a="mas"${S.week>11?' disabled':''}>Semana siguiente</button></div>
+  <p class="muted small">Avance solo si terminó la semana sin señales rojas y con esfuerzo de 13 o menos. Si faltó más de una semana, retome dos semanas atrás.</p></div>
+  <div class="card">${PLAN.map((p,i)=>`<div class="wk${i+1===S.week?' now':''}"><b>${i+1}</b><div><div class="bar" style="width:${p.min*2}%"></div><p>${p.min} min · esfuerzo ${p.b}</p><p class="muted small">${p.fd?`Fuerza ${p.fd} días · ${p.ser} × ${p.rep}`:'Sin fuerza'}${i===8?' · cuesta suave':''}</p></div></div>`).join('')}
+  <p class="muted small">Camine 5 días. Fuerza: martes y viernes; desde la semana 9, lunes, miércoles y viernes. Descanso: jueves y domingo.</p></div>`;
+}
+function linea(e){return e.no?`${e.d} · Semana ${e.w} · NO hizo ejercicio · ${[e.pa&&'presión '+e.pa,e.pu&&'pulso '+e.pu,e.ox&&'oxígeno '+e.ox+'%'].filter(Boolean).join(' · ')} · ${e.sint}`
+  :`${e.d} · Semana ${e.w} · ${[e.pa&&'presión '+e.pa,e.pu&&'pulso '+e.pu,e.ox&&'oxígeno '+e.ox+'%','caminó '+e.min+' min',e.pm&&'pulso máximo '+e.pm,e.borg&&'esfuerzo '+e.borg,'fuerza '+(e.fz?'sí':'no'),e.pa2&&'presión después '+e.pa2,'síntomas: '+(e.sint||'ninguno')].filter(Boolean).join(' · ')}`}
+function resumen(){return 'Diario de rehabilitación cardíaca'+(S.name?' de '+S.name:'')+'\n\n'+S.log.map(linea).join('\n')}
+function diarioHTML(){
+  if(!S.log.length)return `<div><p class="eyebrow">Diario</p><h2>Aún no hay sesiones</h2></div><div class="card"><p>Cada sesión que termine queda anotada aquí con su presión, su pulso, los minutos caminados y cómo se sintió. Después puede enviarle el resumen a su médico por WhatsApp.</p><button class="pri" data-v="hoy">Ir a la sesión de hoy</button></div>`;
+  return `<div><p class="eyebrow">Diario</p><h2>${S.log.filter(e=>!e.no).length} sesiones anotadas</h2></div>
+  <div class="card"><button class="pri" data-a="copiar">Copiar resumen para mi médico</button><p class="muted small" id="copymsg">Después péguelo en WhatsApp.</p><textarea id="copybox" hidden readonly></textarea></div>
+  <div class="card">${S.log.map(e=>`<p class="entry">${esc(linea(e))}</p>`).join('')}</div>
+  <button class="link" data-a="borrar">${wipeArm?'Toque otra vez para borrar todo el diario':'Borrar el diario'}</button>`;
+}
+function datosHTML(){
+  const f=(id,l,t,ph)=>`<label>${l}<input type="${t}" ${t==='number'?'inputmode="numeric"':''} id="d-${id}" data-k="${id}" value="${esc(S[id])}" placeholder="${ph||''}"></label>`;
+  return `<div><p class="eyebrow">Solo se guardan en este teléfono</p><h2>Mis datos</h2></div>
+  <div class="card">${f('name','Su nombre','text','Nombre y apellido')}<label>Semana del programa<select id="d-week" data-k="week">${PLAN.map((p,i)=>`<option value="${i+1}"${i+1===S.week?' selected':''}>Semana ${i+1}</option>`).join('')}</select></label></div>
+  <div class="card"><h3>Números que le da su médico</h3>${f('rest','Pulso en reposo','number','60')}<div class="row">${f('zlo','Zona: desde','number','80')}${f('zhi','Zona: hasta','number','95')}</div>${f('cap','Pulso que no debe pasar','number','110')}${f('spo2','Oxigenación habitual (%)','number','95')}
+  <p class="muted small">Si aún no tiene zona, la aplicación usa su pulso en reposo más 20 a 30 latidos, de forma provisional.</p></div>
+  <div class="card"><h3>A quién llamar</h3>${f('doc','Teléfono de su médico o centro de salud','tel')}${f('contact','Familiar o vecino: nombre y teléfono','text')}</div>
+  <div class="card"><h3>Autor</h3><p>Dr. Juan Fernando Carvajal Estupiñán, cardiólogo</p><p>Teléfono y WhatsApp: <strong>311 777 3387</strong></p><p style="overflow-wrap:anywhere">Correo: juancarvajalcardiologo@gmail.com</p><p class="muted small">Esta aplicación acompaña el manual que le entregó su médico. No reemplaza la consulta.</p></div>`;
+}
+function sosHTML(){
+  return `<div class="wrap" style="padding-block:0 40px"><div class="alert"><h2>Pare y siéntese</h2><ol>
+   <li>Deje el ejercicio ya. No siga “para ver si se pasa”.</li>
+   <li>Si su médico le formuló nitroglicerina, úsela como le indicó.</li>
+   <li>Si el dolor no cede en 5 minutos, o es fuerte desde el inicio, llame al <strong>123</strong> o vaya al centro de salud más cercano. No maneje usted.</li>
+   <li>Si cedió con el reposo, no haga más ejercicio hoy y llame a su médico antes de la siguiente sesión.</li></ol></div>
+   <div class="card"><h3>Teléfonos</h3><p>Emergencias: <strong>123</strong></p>${S.doc?`<p>Médico: <strong>${esc(S.doc)}</strong></p>`:''}${S.contact?`<p>Familiar o vecino: <strong>${esc(S.contact)}</strong></p>`:''}${!S.doc&&!S.contact?'<p class="muted small">Anote los teléfonos de su médico y de un familiar en “Mis datos”.</p>':''}</div>
+   <div class="card"><h3>Señales rojas</h3><ul><li>Dolor, presión o ardor en el pecho, la mandíbula, la espalda o el brazo.</li><li>Ahogo que no corresponde al esfuerzo.</li><li>Mareo, visión borrosa o sensación de desmayo.</li><li>Palpitaciones fuertes o desordenadas.</li><li>Sudor frío o náuseas.</li><li>Oxigenación por debajo de 88 %.</li></ul></div>
+   <button data-a="sosx">Cerrar</button></div>`;
+}
+function render(){
+  const m={hoy:hoyHTML,ej:ejHTML,plan:planHTML,diario:diarioHTML,datos:datosHTML};
+  $('app').innerHTML=(view==='hoy'&&ses)?sesHTML():m[view]();
+  $('nav').hidden=!!ses;
+  document.querySelectorAll('#nav button').forEach(b=>b.dataset.v===view?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current'));
+  paintT();
+}
+
+// ---------- Acciones ----------
+document.addEventListener('click',ev=>{
+  const b=ev.target.closest('[data-a],[data-v]');if(!b)return;
+  if(b.dataset.v){view=b.dataset.v;wipeArm=false;render();window.scrollTo(0,0);return}
+  const a=b.dataset.a,s=ses&&cur();
+  if(a==='sos'){if(T.run)pauseT();$('sos').innerHTML=sosHTML();$('sos').hidden=false;$('sos').scrollTop=0}
+  else if(a==='sosx'){$('sos').hidden=true;render()}
+  else if(a==='empezar'){beep(1);ses=build();view='hoy';enter()}
+  else if(a==='medir')medir();
+  else if(a==='pausa'){T.run?pauseT():playT();render()}
+  else if(a==='skip')next();
+  else if(a==='walkgo'){ses.walking=true;startT(s.sec,()=>{ses.walked=s.sec;next()},true);render()}
+  else if(a==='walkend'){if(T.run)pauseT();ses.walked=Math.round((T.total*1000-T.left)/1000);next()}
+  else if(a==='serie'){if(ses.serie<s.ser){ses.rest=true;render();startT(60,()=>{ses.rest=false;ses.serie++;render()})}else next()}
+  else if(a==='restskip'){stopT();ses.rest=false;ses.serie++;render()}
+  else if(a==='guardar')guardar();
+  else if(a==='salir'){if(ses.exitArm){stopT();ses=null;render()}else{ses.exitArm=true;b.textContent='Toque otra vez para salir sin guardar'}}
+  else if(a==='salirya'){stopT();ses=null;render()}
+  else if(a==='avanzar'||a==='mas'){S.week=Math.min(12,S.week+1);save();render()}
+  else if(a==='menos'){S.week=Math.max(1,S.week-1);save();render()}
+  else if(a==='borrar'){if(wipeArm){S.log=[];wipeArm=false;save()}else wipeArm=true;render()}
+  else if(a==='copiar'){const t=resumen(),ok=()=>{$('copymsg').textContent='Copiado. Abra WhatsApp y péguelo en el chat de su médico.'},
+    no=()=>{const x=$('copybox');x.hidden=false;x.value=t;x.focus();x.select();$('copymsg').textContent='Mantenga el dedo sobre el texto, elija “Copiar” y péguelo en WhatsApp.'};
+    try{navigator.clipboard.writeText(t).then(ok,no)}catch(e){no()}}
+});
+document.addEventListener('input',ev=>{const k=ev.target.dataset&&ev.target.dataset.k;if(!k)return;S[k]=k==='week'?parseInt(ev.target.value):ev.target.value;save()});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&T.run){wake();tick()}});
+render();
+</script>
+
+<script>if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));</script>
+</body>
+</html>

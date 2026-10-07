@@ -1,0 +1,11 @@
+CORAZÓN EN CASA - cómo publicarla en GitHub Pages
+
+1. En github.com cree un repositorio público llamado  corazon-en-casa
+2. Entre al repositorio > "Add file" > "Upload files" y arrastre TODOS los archivos de esta carpeta
+   (index.html, sw.js, manifest.webmanifest y los tres icon-*.png). Pulse "Commit changes".
+3. Settings > Pages > Source: "Deploy from a branch" > Branch: main, carpeta / (root) > Save.
+4. En 1 a 2 minutos queda en:  https://SU-USUARIO.github.io/corazon-en-casa/
+5. Ese es el enlace que se envía por WhatsApp.
+
+Para conectar videos: en index.html busque  const VIDEO={};  y ponga el enlace de cada ejercicio.
+Al publicar cambios, suba el número de versión en sw.js (corazon-en-casa-v1 -> v2).
