@@ -168,7 +168,7 @@ function fig(k){
 
 // ---------- Estado guardado en este teléfono ----------
 const KEY='corazon-en-casa-v1';
-let S={name:'',week:1,rest:'',zlo:'',zhi:'',cap:'',spo2:'',doc:'',contact:'',log:[]};
+let S={name:'',reloj:'no',week:1,rest:'',zlo:'',zhi:'',cap:'',spo2:'',doc:'',contact:'',log:[]};
 try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
 if(!Array.isArray(S.log))S.log=[];
 S.week=Math.min(12,Math.max(1,parseInt(S.week)||1));
@@ -225,7 +225,7 @@ function build(){
 }
 const cur=()=>ses.st[ses.i];
 function enter(){ses.exitArm=false;const s=cur();if(s.k==='t')startT(s.sec,next);render();window.scrollTo(0,0)}
-function next(){stopT();ses.i++;ses.serie=1;ses.rest=false;enter()}
+function next(){stopT();clearInterval(P.int);P.end=0;P.res='';ses.i++;ses.serie=1;ses.rest=false;enter()}
 function sesHTML(){
   const s=cur(),n=ses.st.length,e=s.e&&EX[s.e];
   let h=`<div class="prog" aria-hidden="true"><i style="width:${Math.round(ses.i/(n-1)*100)}%"></i></div>`;
@@ -244,9 +244,9 @@ function sesHTML(){
   else if(s.k==='walk'){const p=PLAN[S.week-1];
     h+=`<p class="eyebrow">Caminata · Semana ${S.week}</p><h2>${ses.walking?'Camine a su paso':'Caminata de '+p.min+' minutos'}</h2>
     <div class="card gold"><p><strong>Esfuerzo:</strong> ${p.b}. Debe poder hablar en frases completas.</p><p><strong>Su pulso:</strong> ${zonaTxt()}.</p>${num(S.cap)?`<p><strong>No pase de:</strong> ${num(S.cap)} latidos por minuto.</p>`:''}</div>`;
-    h+=ses.walking?`<div class="clock" id="clock">0:00</div><div class="prog"><i id="tbar"></i></div><p class="muted small">Sonará un pito cada 5 minutos: mire su pulso en el reloj.</p>
+    h+=ses.walking?`<div class="clock" id="clock">0:00</div><div class="prog"><i id="tbar"></i></div><p class="muted small">${S.reloj==='si'?'Sonará un pito cada 5 minutos: mire su pulso en el reloj.':'Sonará un pito cada 5 minutos: diga una frase completa en voz alta. Si le cuesta, baje el ritmo.'}</p>${pulsoHTML()}
       <div class="row"><button data-a="pausa">${T.run?'Pausar':'Seguir'}</button><button data-a="walkend">Terminar antes</button></div>`
-     :`<div class="card"><ul><li>Inicie “Caminar” en su reloj Garmin.</li><li>Lleve agua, sombrero y el celular.</li><li>Avise a alguien por dónde va.</li></ul></div><button class="pri" data-a="walkgo">Empezar la caminata</button>`;}
+     :`<div class="card"><ul>${S.reloj==='si'?'<li>Inicie el modo caminata o ejercicio en su reloj.</li>':'<li>Guíese por su respiración: debe poder hablar en frases completas.</li>'}<li>Lleve agua, sombrero y el celular.</li><li>Avise a alguien por dónde va.</li></ul></div><button class="pri" data-a="walkgo">Empezar la caminata</button>`;}
   else if(s.k==='r')h+=ses.rest?`<p class="eyebrow">Fuerza · Descanso</p><h2>Descanse 1 minuto</h2><div class="clock" id="clock">1:00</div><div class="prog"><i id="tbar"></i></div><p>Sigue: serie ${ses.serie+1} de ${s.ser} de “${e.n}”.</p><button class="pri" data-a="restskip">Seguir ya</button>`
     :`<p class="eyebrow">Fuerza · Serie ${ses.serie} de ${s.ser}</p><h2>${e.n}</h2>
     <div class="card">${fig(s.e)}<p class="big">${s.rep} veces${e.lados?' por lado':''}</p><p>${e.c}</p><p class="muted small">Objeto: ${e.o}${/botella|Garrafa/i.test(e.o)?'. Esta semana: '+peso(S.week):''}. No aguante la respiración.</p></div>
@@ -256,11 +256,22 @@ function sesHTML(){
     ${[['6 a 8','Muy suave'],['9 a 11','Suave'],['12 a 13','Algo duro: pude hablar'],['14 a 15','Duro: frases cortas'],['16 a 20','Muy duro: no podía hablar']].map((b,i)=>`<label class="opt"><input type="radio" name="borg" id="b-${i}" value="${b[0]}"${i===2?' checked':''}><span><strong>${b[0]}</strong> · ${b[1]}</span></label>`).join('')}</div>
     <div class="card"><p><strong>¿Sintió algo de esto?</strong></p>
     ${['Dolor o presión en el pecho','Ahogo fuerte','Mareo','Palpitaciones'].map((x,i)=>`<label class="opt"><input type="checkbox" name="sint" id="s-${i}" value="${x}">${x}</label>`).join('')}</div>
-    <div class="card"><p class="muted small">Espere 5 minutos sentado y mídase de nuevo. Puede dejarlo en blanco.</p><div class="row"><label>Pulso máximo del reloj<input type="number" inputmode="numeric" id="f-pm"></label></div>
+    <div class="card"><p class="muted small">Espere 5 minutos sentado y mídase de nuevo. Puede dejarlo en blanco.</p><div class="row"><label>Pulso más alto que midió<input type="number" inputmode="numeric" id="f-pm"></label></div>
     <div class="row"><label>Presión alta después<input type="number" inputmode="numeric" id="f-sys"></label><label>Presión baja después<input type="number" inputmode="numeric" id="f-dia"></label></div></div>
     <button class="pri" data-a="guardar">Guardar la sesión</button>`;
   return h+`<button class="link" data-a="salir">${ses.exitArm?'Toque otra vez para salir sin guardar':'Salir de la sesión'}</button>`;
 }
+let P={end:0,int:null,res:''};
+function pulsoHTML(){
+  if(!P.end&&!P.res)return `<button data-a="p15">Medir el pulso a mano (15 segundos)</button>`;
+  if(P.end)return `<div class="card gold"><p><strong>Dos dedos en la muñeca. Cuente los latidos.</strong></p><div class="clock" id="pclock">15</div></div>`;
+  return `<div class="card gold"><label>¿Cuántos latidos contó?<input type="number" inputmode="numeric" id="p-n"></label><button class="pri" data-a="pcalc">Calcular</button><p id="p-out" aria-live="polite"></p><button class="link" data-a="pfin">Seguir caminando</button></div>`;
+}
+function p15(){if(T.run)pauseT();P.res='';P.end=Date.now()+15000;render();clearInterval(P.int);
+  P.int=setInterval(()=>{const l=Math.max(0,Math.ceil((P.end-Date.now())/1000)),el=$('pclock');if(el)el.textContent=l;
+    if(l<=0){clearInterval(P.int);P.end=0;P.res='x';beep(2);render()}},200)}
+function pcalc(){const n=num($('p-n').value);if(!n)return;const b=n*4,z=zona(),c=num(S.cap);
+  $('p-out').innerHTML=`<strong>Su pulso: ${b} por minuto.</strong> `+(c&&b>c?'Pasó su tope: baje el ritmo ya.':z?(b>z.hi?'Está por encima de su zona: baje un poco el ritmo.':b<z.lo?'Está por debajo de su zona: si se siente bien, apure un poco.':'Está dentro de su zona.'):'')}
 function medir(){
   const sys=num($('m-sys').value),dia=num($('m-dia').value),pu=num($('m-pu').value),ox=num($('m-ox').value),si=$('ms-si').checked,r=[],hab=num(S.spo2);
   if((sys&&sys>=180)||(dia&&dia>=110))r.push('Presión muy alta (180/110 o más).');
@@ -303,6 +314,7 @@ function ejHTML(){
   const grupo=(t,sub,l)=>`<div><p class="eyebrow">${sub}</p><h2>${t}</h2></div>`+l.map(k=>{const e=EX[k];return `<div class="card">${fig(k)}<h3>${e.n}</h3><p>${e.c}</p>${e.o?`<p class="muted small">Objeto: ${e.o}</p>`:''}${VIDEO[k]?`<p><a href="${VIDEO[k]}" target="_blank" rel="noopener">Ver el video</a></p>`:''}</div>`}).join('');
   return grupo('Calentamiento','5 minutos antes de caminar',WARM)
    +`<div><p class="eyebrow">Mientras camina</p><h2>Mida su esfuerzo</h2></div><div class="card">${[['6 a 8','Muy suave. Puede cantar.'],['9 a 11','Suave. Habla sin esfuerzo.'],['12 a 13','Algo duro. Habla en frases completas. Esta es su zona.'],['14 a 15','Duro. Solo frases cortas.'],['16 a 20','Muy duro. Baje el ritmo.']].map((z,i)=>`<div class="zone${i===2?' me':''}"><strong>${z[0]}</strong><span>${z[1]}</span></div>`).join('')}</div>`
+   +`<div class="card"><h3>Cómo tomarse el pulso</h3><p><strong>Con reloj que mide el pulso:</strong> ajústelo un dedo por encima del hueso de la muñeca, inicie el modo caminata o ejercicio y mírelo cada 5 minutos. Si puede, programe la alerta de pulso alto con el número que no debe pasar.</p><p><strong>Sin reloj:</strong> pare un momento, ponga dos dedos en la muñeca, por debajo del pulgar, cuente los latidos durante 15 segundos y multiplique por 4. En la caminata, el botón “Medir el pulso a mano” le cuenta los 15 segundos. También puede ponerse el oxímetro, que muestra el pulso.</p><p class="muted small">Con reloj o sin él, mande lo que siente: si no puede hablar en frases completas, baje el ritmo.</p></div>`
    +grupo('Fuerza','Desde la semana 3, después de caminar',STR)
    +`<div class="card gold"><h3>Reglas de la fuerza</h3><ul><li>Nunca aguante la respiración: sople al hacer la fuerza.</li><li>Lento: 2 segundos para subir y 3 para bajar.</li><li>Al terminar debe sentir que podría hacer 2 o 3 más.</li><li>Si duele una articulación, hoy no lo haga.</li></ul></div>`
    +grupo('Enfriamiento','5 minutos para terminar',COOL);
@@ -327,7 +339,7 @@ function diarioHTML(){
 function datosHTML(){
   const f=(id,l,t,ph)=>`<label>${l}<input type="${t}" ${t==='number'?'inputmode="numeric"':''} id="d-${id}" data-k="${id}" value="${esc(S[id])}" placeholder="${ph||''}"></label>`;
   return `<div><p class="eyebrow">Solo se guardan en este teléfono</p><h2>Mis datos</h2></div>
-  <div class="card">${f('name','Su nombre','text','Nombre y apellido')}<label>Semana del programa<select id="d-week" data-k="week">${PLAN.map((p,i)=>`<option value="${i+1}"${i+1===S.week?' selected':''}>Semana ${i+1}</option>`).join('')}</select></label></div>
+  <div class="card">${f('name','Su nombre','text','Nombre y apellido')}<label>¿Tiene un reloj que mida el pulso?<select id="d-reloj" data-k="reloj"><option value="no"${S.reloj!=='si'?' selected':''}>No</option><option value="si"${S.reloj==='si'?' selected':''}>Sí</option></select></label><label>Semana del programa<select id="d-week" data-k="week">${PLAN.map((p,i)=>`<option value="${i+1}"${i+1===S.week?' selected':''}>Semana ${i+1}</option>`).join('')}</select></label></div>
   <div class="card"><h3>Números que le da su médico</h3>${f('rest','Pulso en reposo','number','60')}<div class="row">${f('zlo','Zona: desde','number','80')}${f('zhi','Zona: hasta','number','95')}</div>${f('cap','Pulso que no debe pasar','number','110')}${f('spo2','Oxigenación habitual (%)','number','95')}
   <p class="muted small">Si aún no tiene zona, la aplicación usa su pulso en reposo más 20 a 30 latidos, de forma provisional.</p></div>
   <div class="card"><h3>A quién llamar</h3>${f('doc','Teléfono de su médico o centro de salud','tel')}${f('contact','Familiar o vecino: nombre y teléfono','text')}</div>
@@ -367,6 +379,9 @@ document.addEventListener('click',ev=>{
   else if(a==='serie'){if(ses.serie<s.ser){ses.rest=true;render();startT(60,()=>{ses.rest=false;ses.serie++;render()})}else next()}
   else if(a==='restskip'){stopT();ses.rest=false;ses.serie++;render()}
   else if(a==='guardar')guardar();
+  else if(a==='p15')p15();
+  else if(a==='pcalc')pcalc();
+  else if(a==='pfin'){P.res='';P.end=0;playT();render()}
   else if(a==='salir'){if(ses.exitArm){stopT();ses=null;render()}else{ses.exitArm=true;b.textContent='Toque otra vez para salir sin guardar'}}
   else if(a==='salirya'){stopT();ses=null;render()}
   else if(a==='avanzar'||a==='mas'){S.week=Math.min(12,S.week+1);save();render()}
